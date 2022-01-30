@@ -95,6 +95,11 @@ function css() {
     .pipe(browserSync.stream());
 }
 
+function files() {
+  return src(path.src.files)
+    .pipe(dest(path.build.files))
+}
+
 function browserSyncInit() {
   browserSync.init({
     server: {
@@ -109,17 +114,19 @@ function browserSyncInit() {
 function watchFiles() {
   gulp.watch([path.watch.html], html);
   gulp.watch([path.watch.sass], css);
+  gulp.watch([path.watch.files], files;
 }
 
 function clean() {
   return del(path.clean);
 }
 
-const build = gulp.series(clean, gulp.parallel(html, css));
+const build = gulp.series(clean, gulp.parallel(html, css, files));
 const watch = gulp.parallel(browserSyncInit, watchFiles, build);
 
 exports.html = html;
 exports.css = css;
+exports.files = files;
 
 exports.build = build;
 exports.watch = watch;
