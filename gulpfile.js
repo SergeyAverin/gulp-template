@@ -17,6 +17,7 @@ const gcmq = require('gulp-group-css-media-queries');
 const plumber = require('gulp-plumber');
 const notify = require("gulp-notify");
 const rename = require('gulp-rename');
+const del = require('del');
 
 
 const buildFolder = 'dist';
@@ -110,7 +111,11 @@ function watchFiles() {
   gulp.watch([path.watch.sass], css);
 }
 
-const build = gulp.series(gulp.parallel(html, css));
+function clean() {
+  return del(path.clean);
+}
+
+const build = gulp.series(clean, gulp.parallel(html, css));
 const watch = gulp.parallel(browserSyncInit, watchFiles, build);
 
 exports.html = html;
@@ -118,5 +123,6 @@ exports.css = css;
 
 exports.build = build;
 exports.watch = watch;
+exports.clean = clean;
 
 exports.default = watch;
