@@ -7,6 +7,9 @@ const webpHTML = require('gulp-webp-html');
 const version = require('gulp-version-number');
 const fileinclude = require('gulp-file-include');
 
+// plugins for js
+const webpack = require('webpack-stream');
+
 // plugins for css
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
@@ -95,6 +98,18 @@ function css() {
     .pipe(browserSync.stream());
 }
 
+function js() {
+  return src(path.src.js, {sourcemaps: true})
+    .pipe(webpack({
+        mode: 'development',
+        output: {
+          filename: 'script.min.js'
+        }
+      }))
+    .pipe(dest(path.build.js))
+    .pipe(browserSync.stream());
+}
+
 function files() {
   return src(path.src.files)
     .pipe(dest(path.build.files))
@@ -114,18 +129,20 @@ function browserSyncInit() {
 function watchFiles() {
   gulp.watch([path.watch.html], html);
   gulp.watch([path.watch.sass], css);
-  gulp.watch([path.watch.files], files;
+  gulp.watch([path.watch.js], js);
+  gulp.watch([path.watch.files], files);
 }
 
 function clean() {
   return del(path.clean);
 }
 
-const build = gulp.series(clean, gulp.parallel(html, css, files));
+const build = gulp.series(clean, gulp.parallel(html, css, js, files));
 const watch = gulp.parallel(browserSyncInit, watchFiles, build);
 
 exports.html = html;
 exports.css = css;
+exports.js = js;
 exports.files = files;
 
 exports.build = build;
