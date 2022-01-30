@@ -1,0 +1,35 @@
+{
+  "name": "gulp-template",
+  "version": "1.0.0",
+  "description": "it is my gulp template for projects",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrettyStreett/gulp-template.git"
+  },
+  "keywords": [
+    "gulp",
+    "node",
+    "frontend"
+  ],
+  "author": "PrettyStreet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PrettyStreett/gulp-template/issues"
+  },
+  "homepage": "https://github.com/PrettyStreett/gulp-template#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
+  "dependencies": {
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0"
+  }
+}
