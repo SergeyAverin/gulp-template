@@ -7,9 +7,16 @@ const webpHTML = require('gulp-webp-html');
 const version = require('gulp-version-number');
 const fileinclude = require('gulp-file-include');
 
+// plugins for css
+const sass = require('gulp-sass')(require('sass'));
+const autoprefixer = require('gulp-autoprefixer');
+const cleancss = require('gulp-clean-css');
+const webpCss = require('gulp-webp-css');
+const gcmq = require('gulp-group-css-media-queries');
+
 const plumber = require('gulp-plumber');
 const notify = require("gulp-notify");
-
+const rename = require('gulp-rename');
 
 
 const buildFolder = 'dist';
@@ -71,6 +78,22 @@ function html() {
     .pipe(browserSync.stream());
 }
 
+function css() {
+  return src(path.src.sass, {sourcemaps: true})
+    .pipe(sass({ outputStyle: 'expanded' }))
+    .pipe(gcmq())
+    .pipe(autoprefixer({
+      overrideBrowserslist: ['last 5 versions'],
+      cascade: true,
+    }))
+    .pipe(webpCss())
+    .pipe(dest(path.build.css))
+    .pipe(cleancss())
+    .pipe(rename({ extname: '.min.css' }))
+    .pipe(dest(path.build.css))
+    .pipe(browserSync.stream());
+}
+
 function browserSyncInit() {
   browserSync.init({
     server: {
@@ -84,12 +107,14 @@ function browserSyncInit() {
 
 function watchFiles() {
   gulp.watch([path.watch.html], html);
+  gulp.watch([path.watch.sass], css);
 }
 
-const build = gulp.series(gulp.parallel(html));
+const build = gulp.series(gulp.parallel(html, css));
 const watch = gulp.parallel(browserSyncInit, watchFiles, build);
 
 exports.html = html;
+exports.css = css;
 
 exports.build = build;
 exports.watch = watch;
