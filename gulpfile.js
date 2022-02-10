@@ -3,7 +3,8 @@ const gulp = require('gulp');
 const browserSync = require('browser-sync');
 
 // plugins for html
-const webpHTML = require('gulp-webp-html');
+//const webpHTML = require('gulp-webp-html');
+const webpHTML = require('gulp-webp-html-nosvg');
 const version = require('gulp-version-number');
 const fileinclude = require('gulp-file-include');
 
