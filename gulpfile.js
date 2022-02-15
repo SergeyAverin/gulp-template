@@ -18,6 +18,11 @@ const cleancss = require('gulp-clean-css');
 const webpCss = require('gulp-webp-css');
 const gcmq = require('gulp-group-css-media-queries');
 
+// plugins for images
+const webp = require('gulp-webp');
+const newer = require('gulp-newer');
+
+// Other gulp plugins
 const plumber = require('gulp-plumber');
 const notify = require("gulp-notify");
 const rename = require('gulp-rename');
@@ -40,7 +45,7 @@ const path = {
     html: `${sourceFolder}/*.html`,
     sass: `${sourceFolder}/sass/style.sass`,
     js: `${sourceFolder}/js/script.js`,
-    img: `${sourceFolder}/img/**/*.{png, jpg, svg, gif, ico, webp}`,
+    img: `${sourceFolder}/img/**/*.{png, jpg, jpeg, svg, gif, ico, webp}`,
     font: `${sourceFolder}/fonts/*.ttf`,
     files: `${sourceFolder}/files/**/*.*`
   },
@@ -48,7 +53,7 @@ const path = {
     html: `${sourceFolder}/**/*.html`,
     sass: `${sourceFolder}/sass/**/*.sass`,
     js: `${sourceFolder}/js/**/*.js`,
-    img: `${sourceFolder}/img/**/*.{png, jpg, svg, gif, ico, webp}`,
+    img: `${sourceFolder}/img/**/*.{png, jpg, jpeg, svg, gif, ico, webp}`,
     font: `${sourceFolder}/fonts/*.ttf`,
     files: `${sourceFolder}/files/**/*.*`
   },
@@ -116,6 +121,14 @@ function files() {
     .pipe(dest(path.build.files))
 }
 
+function img() {
+  return src(path.src.img)
+    .pipe(newer(path.src.img))
+    .pipe(dest(path.build.img))
+    .pipe(webp())
+    .pipe(dest(path.build.img))
+}
+
 function browserSyncInit() {
   browserSync.init({
     server: {
@@ -132,18 +145,20 @@ function watchFiles() {
   gulp.watch([path.watch.sass], css);
   gulp.watch([path.watch.js], js);
   gulp.watch([path.watch.files], files);
+  gulp.watch([path.watch.img], img);
 }
 
 function clean() {
   return del(path.clean);
 }
 
-const build = gulp.series(clean, gulp.parallel(html, css, js, files));
+const build = gulp.series(clean, gulp.parallel(html, css, js, files, img));
 const watch = gulp.parallel(browserSyncInit, watchFiles, build);
 
 exports.html = html;
 exports.css = css;
 exports.js = js;
+exports.img = img;
 exports.files = files;
 
 exports.build = build;
