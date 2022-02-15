@@ -1,2 +1,3 @@
 # gulp-template
-it is my gulp template for  projects
+
+it is my gulp template for projects
