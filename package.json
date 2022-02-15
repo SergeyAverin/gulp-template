@@ -4,7 +4,10 @@
   "description": "it is my gulp template for projects",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "gulp",
+    "lint": "eslint ./src/js/",
+    "fix": "prettier ./src/js/ --write",
+    "check": "prettier ./src/js/ --check"
   },
   "repository": {
     "type": "git",
@@ -43,6 +46,7 @@
     "gulp-webp-css": "^1.1.0",
     "gulp-webp-html": "^1.0.2",
     "gulp-webp-html-nosvg": "^1.0.5",
+    "prettier": "2.5.1",
     "sass": "^1.49.0",
     "webpack": "^5.67.0",
     "webpack-stream": "^7.0.0"

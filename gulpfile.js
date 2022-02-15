@@ -1,39 +1,38 @@
-const { src, dest } = require('gulp');
-const gulp = require('gulp');
-const browserSync = require('browser-sync');
+const { src, dest } = require("gulp");
+const gulp = require("gulp");
+const browserSync = require("browser-sync");
 
 // plugins for html
 //const webpHTML = require('gulp-webp-html');
-const webpHTML = require('gulp-webp-html-nosvg');
-const version = require('gulp-version-number');
-const fileinclude = require('gulp-file-include');
+const webpHTML = require("gulp-webp-html-nosvg");
+const version = require("gulp-version-number");
+const fileinclude = require("gulp-file-include");
 
 // plugins for js
-const webpack = require('webpack-stream');
+const webpack = require("webpack-stream");
 const babel = require("gulp-babel");
 
 // plugins for css
-const sass = require('gulp-sass')(require('sass'));
-const autoprefixer = require('gulp-autoprefixer');
-const cleancss = require('gulp-clean-css');
-const webpCss = require('gulp-webp-css');
-const gcmq = require('gulp-group-css-media-queries');
+const sass = require("gulp-sass")(require("sass"));
+const autoprefixer = require("gulp-autoprefixer");
+const cleancss = require("gulp-clean-css");
+const webpCss = require("gulp-webp-css");
+const gcmq = require("gulp-group-css-media-queries");
 
 // plugins for images
-const webp = require('gulp-webp');
-const newer = require('gulp-newer');
+const webp = require("gulp-webp");
+const newer = require("gulp-newer");
 
 // Other gulp plugins
-const plumber = require('gulp-plumber');
+const plumber = require("gulp-plumber");
 const notify = require("gulp-notify");
-const rename = require('gulp-rename');
-const gulpif = require('gulp-if');
-const del = require('del');
-
+const rename = require("gulp-rename");
+const gulpif = require("gulp-if");
+const del = require("del");
 
 const isBuild = false;
-const buildFolder = 'dist';
-const sourceFolder = 'src';
+const buildFolder = "dist";
+const sourceFolder = "src";
 
 const path = {
   build: {
@@ -42,7 +41,7 @@ const path = {
     js: `${buildFolder}/js/`,
     img: `${buildFolder}/img/`,
     font: `${buildFolder}/fonts/`,
-    files: `${buildFolder}/files/`
+    files: `${buildFolder}/files/`,
   },
   src: {
     html: `${sourceFolder}/*.html`,
@@ -50,7 +49,7 @@ const path = {
     js: `${sourceFolder}/js/script.js`,
     img: `${sourceFolder}/img/**/*.{png, jpg, jpeg, svg, gif, ico, webp}`,
     font: `${sourceFolder}/fonts/*.ttf`,
-    files: `${sourceFolder}/files/**/*.*`
+    files: `${sourceFolder}/files/**/*.*`,
   },
   watch: {
     html: `${sourceFolder}/**/*.html`,
@@ -58,65 +57,72 @@ const path = {
     js: `${sourceFolder}/js/**/*.js`,
     img: `${sourceFolder}/img/**/*.{png, jpg, jpeg, svg, gif, ico, webp}`,
     font: `${sourceFolder}/fonts/*.ttf`,
-    files: `${sourceFolder}/files/**/*.*`
+    files: `${sourceFolder}/files/**/*.*`,
   },
   clean: `./${buildFolder}/`,
 };
 
 function html() {
-  return src(path.src.html)
-    /*
+  return (
+    src(path.src.html)
+      /*
     .pipe(plumber(
       {errorHandler: notify.onError("Error: <%= error.message %>")
     }))
     */
-    .pipe(fileinclude())
-    .pipe(gulpif(isBuild, webpHTML()))
-    .pipe(gulpif(isBuild, version(
-    {
-        'value' : '%DT%',
-        'append' : {
-            'key' : '_v',
-            'cover' : 0,
-            'to' : [
-                'css',
-                'js'
-            ]
-        },
-        'output' : {
-            'file' : `${buildFolder}/version.json`
-        }
-    })))
-    .pipe(dest(path.build.html))
-    .pipe(browserSync.stream());
+      .pipe(fileinclude())
+      .pipe(gulpif(isBuild, webpHTML()))
+      .pipe(
+        gulpif(
+          isBuild,
+          version({
+            value: "%DT%",
+            append: {
+              key: "_v",
+              cover: 0,
+              to: ["css", "js"],
+            },
+            output: {
+              file: `${buildFolder}/version.json`,
+            },
+          })
+        )
+      )
+      .pipe(dest(path.build.html))
+      .pipe(browserSync.stream())
+  );
 }
 
 function css() {
-  return src(path.src.sass, {sourcemaps: true})
-    .pipe(sass({ outputStyle: 'expanded' }))
+  return src(path.src.sass, { sourcemaps: true })
+    .pipe(sass({ outputStyle: "expanded" }))
     .pipe(gulpif(isBuild, gcmq()))
-    .pipe(gulpif(isBuild, autoprefixer({
-      overrideBrowserslist: ['last 5 versions'],
-      cascade: true,
-    })))
+    .pipe(
+      gulpif(
+        isBuild,
+        autoprefixer({
+          overrideBrowserslist: ["last 5 versions"],
+          cascade: true,
+        })
+      )
+    )
     .pipe(gulpif(isBuild, webpCss()))
     .pipe(dest(path.build.css))
     .pipe(cleancss())
-    .pipe(rename({ extname: '.min.css' }))
+    .pipe(rename({ extname: ".min.css" }))
     .pipe(dest(path.build.css))
     .pipe(browserSync.stream());
 }
 
 function js() {
-  return src(path.src.js, {sourcemaps: true})
-    .pipe(webpack(require('./webpack.config.js')))
+  return src(path.src.js, { sourcemaps: true })
+    .pipe(webpack(require("./webpack.config.js")))
     .pipe(dest(path.build.js))
     .pipe(browserSync.stream());
 }
 
 function files() {
-  return src(path.src.files)
-    .pipe(dest(path.build.files))
+  return src(path.src.files).pipe(dest(path.build.files));
 }
 
 function img() {
@@ -124,7 +130,7 @@ function img() {
     .pipe(newer(path.src.img))
     .pipe(dest(path.build.img))
     .pipe(gulpif(isBuild, webp()))
-    .pipe(dest(path.build.img))
+    .pipe(dest(path.build.img));
 }
 
 function browserSyncInit() {
