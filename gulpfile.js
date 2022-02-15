@@ -26,9 +26,11 @@ const newer = require('gulp-newer');
 const plumber = require('gulp-plumber');
 const notify = require("gulp-notify");
 const rename = require('gulp-rename');
+const gulpif = require('gulp-if');
 const del = require('del');
 
 
+const isBuild = false;
 const buildFolder = 'dist';
 const sourceFolder = 'src';
 
@@ -68,8 +70,8 @@ function html() {
     }))
     */
     .pipe(fileinclude())
-    .pipe(webpHTML())
-    .pipe(version(
+    .pipe(gulpif(isBuild, webpHTML()))
+    .pipe(gulpif(isBuild, version(
     {
         'value' : '%DT%',
         'append' : {
@@ -83,7 +85,7 @@ function html() {
         'output' : {
             'file' : `${buildFolder}/version.json`
         }
-    }))
+    })))
     .pipe(dest(path.build.html))
     .pipe(browserSync.stream());
 }
@@ -92,11 +94,11 @@ function css() {
   return src(path.src.sass, {sourcemaps: true})
     .pipe(sass({ outputStyle: 'expanded' }))
     .pipe(gcmq())
-    .pipe(autoprefixer({
+    .pipe(gulpif(isBuild, autoprefixer({
       overrideBrowserslist: ['last 5 versions'],
       cascade: true,
-    }))
-    .pipe(webpCss())
+    })))
+    .pipe(gulpif(isBuild, webpCss()))
     .pipe(dest(path.build.css))
     .pipe(cleancss())
     .pipe(rename({ extname: '.min.css' }))
@@ -125,7 +127,7 @@ function img() {
   return src(path.src.img)
     .pipe(newer(path.src.img))
     .pipe(dest(path.build.img))
-    .pipe(webp())
+    .pipe(gulpif(isBuild, webp()))
     .pipe(dest(path.build.img))
 }
 
