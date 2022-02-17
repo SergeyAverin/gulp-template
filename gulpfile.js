@@ -10,7 +10,6 @@ const fileinclude = require("gulp-file-include");
 
 // plugins for js
 const webpack = require("webpack-stream");
-const babel = require("gulp-babel");
 
 // plugins for css
 const sass = require("gulp-sass")(require("sass"));
@@ -23,9 +22,11 @@ const gcmq = require("gulp-group-css-media-queries");
 const webp = require("gulp-webp");
 const newer = require("gulp-newer");
 
+// Plugins for fonts
+const ttf2woff = require("gulp-ttf2woff");
+const ttf2woff2 = require("gulp-ttf2woff2");
+
 // Other gulp plugins
-const plumber = require("gulp-plumber");
-const notify = require("gulp-notify");
 const rename = require("gulp-rename");
 const gulpif = require("gulp-if");
 const del = require("del");
@@ -40,7 +41,7 @@ const path = {
     css: `${buildFolder}/css/`,
     js: `${buildFolder}/js/`,
     img: `${buildFolder}/img/`,
-    font: `${buildFolder}/fonts/`,
+    fonts: `${buildFolder}/fonts/`,
     files: `${buildFolder}/files/`,
   },
   src: {
@@ -48,7 +49,7 @@ const path = {
     sass: `${sourceFolder}/sass/style.sass`,
     js: `${sourceFolder}/js/script.js`,
     img: `${sourceFolder}/img/**/*.{png, jpg, jpeg, svg, gif, ico, webp}`,
-    font: `${sourceFolder}/fonts/*.ttf`,
+    fonts: `${sourceFolder}/fonts/*.ttf`,
     files: `${sourceFolder}/files/**/*.*`,
   },
   watch: {
@@ -56,41 +57,33 @@ const path = {
     sass: `${sourceFolder}/sass/**/*.sass`,
     js: `${sourceFolder}/js/**/*.js`,
     img: `${sourceFolder}/img/**/*.{png, jpg, jpeg, svg, gif, ico, webp}`,
-    font: `${sourceFolder}/fonts/*.ttf`,
     files: `${sourceFolder}/files/**/*.*`,
   },
   clean: `./${buildFolder}/`,
 };
 
 function html() {
-  return (
-    src(path.src.html)
-      /*
-    .pipe(plumber(
-      {errorHandler: notify.onError("Error: <%= error.message %>")
-    }))
-    */
-      .pipe(fileinclude())
-      .pipe(gulpif(isBuild, webpHTML()))
-      .pipe(
-        gulpif(
-          isBuild,
-          version({
-            value: "%DT%",
-            append: {
-              key: "_v",
-              cover: 0,
-              to: ["css", "js"],
-            },
-            output: {
-              file: `${buildFolder}/version.json`,
-            },
-          })
-        )
+  return src(path.src.html)
+    .pipe(fileinclude())
+    .pipe(gulpif(isBuild, webpHTML()))
+    .pipe(
+      gulpif(
+        isBuild,
+        version({
+          value: "%DT%",
+          append: {
+            key: "_v",
+            cover: 0,
+            to: ["css", "js"],
+          },
+          output: {
+            file: `${buildFolder}/version.json`,
+          },
+        })
       )
-      .pipe(dest(path.build.html))
-      .pipe(browserSync.stream())
-  );
+    )
+    .pipe(dest(path.build.html))
+    .pipe(browserSync.stream());
 }
 
 function css() {
@@ -133,6 +126,11 @@ function img() {
     .pipe(dest(path.build.img));
 }
 
+function fonts() {
+  src(path.src.fonts).pipe(ttf2woff()).pipe(dest(path.build.fonts));
+  return src(path.src.fonts).pipe(ttf2woff2()).pipe(dest(path.build.fonts));
+}
+
 function browserSyncInit() {
   browserSync.init({
     server: {
@@ -148,7 +146,6 @@ function watchFiles() {
   gulp.watch([path.watch.html], html);
   gulp.watch([path.watch.sass], css);
   gulp.watch([path.watch.js], js);
-  gulp.watch([path.watch.files], files);
   gulp.watch([path.watch.img], img);
 }
 
@@ -156,7 +153,10 @@ function clean() {
   return del(path.clean);
 }
 
-const build = gulp.series(clean, gulp.parallel(html, css, js, files, img));
+const build = gulp.series(
+  clean,
+  gulp.parallel(html, css, js, files, img, fonts)
+);
 const watch = gulp.parallel(browserSyncInit, watchFiles, build);
 
 exports.html = html;
@@ -164,6 +164,7 @@ exports.css = css;
 exports.js = js;
 exports.img = img;
 exports.files = files;
+exports.fonts = fonts;
 
 exports.build = build;
 exports.watch = watch;
