@@ -1,7 +1,7 @@
 {
   "name": "gulp-template",
   "version": "1.0.0",
-  "description": "it is my gulp template for projects",
+  "description": "It is my gulp template for projects. In this gulp setup, I added everything that I thought was necessary for work on web site layout.",
   "main": "gulpfile.js",
   "scripts": {
     "dev": "cross-env GULP_TEMPLATE_MODE=development gulp",
