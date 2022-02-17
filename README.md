@@ -3,6 +3,11 @@
 It is my gulp template for projects. In this gulp setup, I added everything that I thought was necessary for work on  web site layout. This gulp setup has sass preprocessor. I will add pug in the futur. This gulp setup have webpack for create bundle js file. Webpack use babel-loader for support old browser. For optimize gulp setup have two mode (production, development). Default mode development. You can change GULP_TEMPLATE_MODE environment variables to change gulp setup mode or use npm scripts. Gulp template convert image to webp format and convert ttf to woff and woff2
 
 *********
+## Start work:
+1. `git clone https://github.com/PrettyStreett/gulp-template.git`
+2. `cd gulp-template`
+3. `npm install`
+4. `npm run dev`
 
 ## Modes
 * Production (for final build. Production mode use all plugins)
