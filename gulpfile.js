@@ -31,7 +31,8 @@ const rename = require("gulp-rename");
 const gulpif = require("gulp-if");
 const del = require("del");
 
-const isBuild = false;
+const isBuild = process.env.GULP_TEMPLATE_MODE === "production";
+
 const buildFolder = "dist";
 const sourceFolder = "src";
 
@@ -48,7 +49,7 @@ const path = {
     html: `${sourceFolder}/*.html`,
     sass: `${sourceFolder}/sass/style.sass`,
     js: `${sourceFolder}/js/script.js`,
-    img: `${sourceFolder}/img/**/*.{png, jpg, jpeg, svg, gif, ico, webp}`,
+    img: `${sourceFolder}/img/**/*.+(png|jpg|jpeg|svg|gif|ico|webp)`,
     fonts: `${sourceFolder}/fonts/*.ttf`,
     files: `${sourceFolder}/files/**/*.*`,
   },
@@ -56,7 +57,7 @@ const path = {
     html: `${sourceFolder}/**/*.html`,
     sass: `${sourceFolder}/sass/**/*.sass`,
     js: `${sourceFolder}/js/**/*.js`,
-    img: `${sourceFolder}/img/**/*.{png, jpg, jpeg, svg, gif, ico, webp}`,
+    img: `${sourceFolder}/img/**/*.+(png|jpg|jpeg|svg|gif|ico|webp)`,
     files: `${sourceFolder}/files/**/*.*`,
   },
   clean: `./${buildFolder}/`,

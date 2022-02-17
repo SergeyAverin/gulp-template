@@ -4,7 +4,8 @@
   "description": "it is my gulp template for projects",
   "main": "gulpfile.js",
   "scripts": {
-    "dev": "gulp",
+    "dev": "cross-env GULP_TEMPLATE_MODE=development gulp",
+    "build": "cross-env GULP_TEMPLATE_MODE=production gulp",
     "lint": "eslint ./src/js/",
     "fix": "prettier ./src/js/ --write",
     "check": "prettier ./src/js/ --check"
@@ -30,6 +31,7 @@
     "@babel/preset-env": "^7.16.11",
     "babel-loader": "^8.2.3",
     "browser-sync": "^2.27.7",
+    "cross-env": "^7.0.3",
     "del": "^6.0.0",
     "eslint": "^8.8.0",
     "eslint-config-airbnb": "^19.0.4",

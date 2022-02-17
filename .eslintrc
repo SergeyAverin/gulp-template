@@ -9,7 +9,7 @@
   },
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": "warn",
     "no-alert": "off",
     "no-unused-vars": "warn",
     "no-console": "off"

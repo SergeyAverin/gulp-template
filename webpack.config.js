@@ -1,5 +1,11 @@
+let mode = process.env.GULP_TEMPLATE_MODE;
+
+if (!mode) {
+  mode = "production";
+}
+
 module.exports = {
-  mode: "development",
+  mode: mode,
   output: {
     filename: "script.min.js",
   },
