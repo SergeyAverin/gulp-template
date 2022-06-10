@@ -3,10 +3,8 @@ const gulp = require("gulp");
 const browserSync = require("browser-sync");
 
 // plugins for html
-//const webpHTML = require('gulp-webp-html');
-const webpHTML = require("gulp-webp-html-nosvg");
 const version = require("gulp-version-number");
-const fileinclude = require("gulp-file-include");
+const pug = require("gulp-pug");
 
 // plugins for js
 const webpack = require("webpack-stream");
@@ -46,7 +44,7 @@ const path = {
     files: `${buildFolder}/files/`,
   },
   src: {
-    html: `${sourceFolder}/*.html`,
+    pug: `${sourceFolder}/*.pug`,
     sass: `${sourceFolder}/sass/style.sass`,
     js: `${sourceFolder}/js/script.js`,
     img: `${sourceFolder}/img/**/*.+(png|jpg|jpeg|svg|gif|ico|webp)`,
@@ -54,7 +52,7 @@ const path = {
     files: `${sourceFolder}/files/**/*.*`,
   },
   watch: {
-    html: `${sourceFolder}/**/*.html`,
+    pug: `${sourceFolder}/**/*.pug`,
     sass: `${sourceFolder}/sass/**/*.sass`,
     js: `${sourceFolder}/js/**/*.js`,
     img: `${sourceFolder}/img/**/*.+(png|jpg|jpeg|svg|gif|ico|webp)`,
@@ -64,9 +62,8 @@ const path = {
 };
 
 function html() {
-  return src(path.src.html)
-    .pipe(fileinclude())
-    .pipe(gulpif(isBuild, webpHTML()))
+  return src(path.src.pug)
+    .pipe(pug())
     .pipe(
       gulpif(
         isBuild,
@@ -144,7 +141,7 @@ function browserSyncInit() {
 }
 
 function watchFiles() {
-  gulp.watch([path.watch.html], html);
+  gulp.watch([path.watch.pug], html);
   gulp.watch([path.watch.sass], css);
   gulp.watch([path.watch.js], js);
   gulp.watch([path.watch.img], img);
