@@ -1,6 +1,5 @@
 const webpack = require("webpack");
 
-
 const MODE = process.env.GULP_TEMPLATE_MODE;
 
 const plugins = [
@@ -16,7 +15,7 @@ if (MODE === "development") {
 
 module.exports = {
   mode: MODE === "production" ? "production" : "development",
-  
+  devtool: "source-map",
   output: {
     filename: "script.min.js",
   },
@@ -29,5 +28,5 @@ module.exports = {
       },
     ],
   },
-  plugins
+  plugins,
 };
