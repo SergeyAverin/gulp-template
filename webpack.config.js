@@ -1,11 +1,22 @@
-let mode = process.env.GULP_TEMPLATE_MODE;
+const webpack = require("webpack");
 
-if (!mode) {
-  mode = "production";
+
+const MODE = process.env.GULP_TEMPLATE_MODE;
+
+const plugins = [
+  new webpack.EnvironmentPlugin({
+    MODE: MODE,
+  }),
+];
+
+if (MODE === "development") {
+  // Development plugins
+  // plugins.push(new PluginName());
 }
 
 module.exports = {
-  mode: mode,
+  mode: MODE === "production" ? "production" : "development",
+  
   output: {
     filename: "script.min.js",
   },
@@ -18,4 +29,5 @@ module.exports = {
       },
     ],
   },
+  plugins
 };
