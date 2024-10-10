@@ -4,11 +4,14 @@ mixin link(url, text, imageSrc)
     a.link(src=url)= text 
 
 block content
-    .links
-        +link('#', 'vk', '')
-        +link('#', 'vk', '')
-        +link('#', 'vk', '')
+    .wrapper
+        .navigation
+            img(src="./img/HomePagePhoto.png")
+            .links
+                +link('#', 'vk', '')
+                +link('#', 'vk', '')
+                +link('#', 'vk', '')
 
-        +link('#', 'vk', '')
-        +link('#', 'vk', '')
-        +link('#', 'vk', '')
+                +link('#', 'vk', '')
+                +link('#', 'vk', '')
+                +link('#', 'vk', '')
