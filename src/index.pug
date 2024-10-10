@@ -1,5 +1,14 @@
 extends layout/base
 
+mixin link(url, text, imageSrc)
+    a.link(src=url)= text 
+
 block content
-    include ./module/header
-    h1 GulpTemplate
+    .links
+        +link('#', 'vk', '')
+        +link('#', 'vk', '')
+        +link('#', 'vk', '')
+
+        +link('#', 'vk', '')
+        +link('#', 'vk', '')
+        +link('#', 'vk', '')
