@@ -1,12 +1,23 @@
 @import "../_vars"
 
-#search
+#search-form
     background: $primary
-    border: none
-    outline: none
     border-radius: 15px
-    color: $fg
     padding: 25px
     width: 103%
     box-sizing: border-box
     margin-top: 15px
+    display: flex
+    justify-content: space-between
+
+#search
+    border: none
+    outline: none
+    color: $fg
+    background: $primary
+    width: 103%
+    box-sizing: border-box
+
+    &__icon
+        width: 25px
+        height: 25px
