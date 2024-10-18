@@ -1,15 +1,16 @@
 extends layout/base
 
+mixin appLink(href, icon)
+    a(href=href)
+        img.icon(src=icon)
+
 block content
     .wrapper
         div
-            .time
+            .widget
                 include ./module/clock
-                .apps 
-                    a(href="https://github.com/SergeyAverin") g
-                    a(href="https://docs.google.com/spreadsheets/d/1OvscT0_oWGHYv0d_vEWtdu18WNBLLx2KbceZhqzPgmI/edit?gid=0#gid=0") t
-                    a(href="https://drive.google.com/drive/my-drive?hl=ru") f
-                    a(href="https://mail.google.com/mail/u/1/?pli=1#inbox") fd
+                include ./module/app-widget
+
                 
             include ./module/search
             .navigation
