@@ -1,11 +1,12 @@
 mixin link(url, text, imageSrc)
-    a.link(href=url)= text 
+    a.link(href=url)
+        img.link__img(src=imageSrc, alt=text)
 
 .links
-    +link('https://www.youtube.com/', 'YouTube', '')
-    +link('https://animego.org/', 'AnimeGo', '')
-    +link('https://ru.pinterest.com/', 'Pintrest', '')
+    +link('https://www.youtube.com/', 'YouTube', './img/youtube.png')
+    +link('https://animego.org/', 'AnimeGo',  './img/animego.png')
+    +link('https://ru.pinterest.com/', 'Pintrest', './img/pintrest.png')
 
-    +link('https://www.twitch.tv/', 'Twitch', '')
-    +link('https://www.reddit.com/', 'Reddit', '')
-    +link('https://www.deepl.com/en/translator', 'Deepl', '')
+    +link('https://www.twitch.tv/', 'Twitch', './img/twitch.png')
+    +link('https://www.reddit.com/', 'Reddit', './img/reddit.png')
+    +link('https://www.deepl.com/en/translator', 'Deepl', './img/deepl.png')
