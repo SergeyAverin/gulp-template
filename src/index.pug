@@ -1,22 +1,9 @@
 extends layout/base
 
-mixin link(url, text, imageSrc)
-    a.link(href=url)= text 
-
-mixin search(searchLink)
-    input.search(type="text") 
-
 block content
     .wrapper
         div
-            +search('asf')
+            include ./module/search
             .navigation
-                img(src="./img/HomePagePhoto.png")
-                .links
-                    +link('#', 'vk', '')
-                    +link('#', 'vk', '')
-                    +link('#', 'vk', '')
-
-                    +link('#', 'vk', '')
-                    +link('#', 'vk', '')
-                    +link('#', 'vk', '')
+                include ./module/banner
+                include ./module/links-grid
