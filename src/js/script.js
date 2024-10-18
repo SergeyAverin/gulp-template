@@ -1,6 +1,8 @@
-import clocklInit from "./lib/clock";
+import clockInit from "./lib/clock";
+import searchInit from "./lib/search";
 
-clocklInit();
+clockInit();
+searchInit();
 
-console.log('Hello world!');
-console.log(`Mode: ${ process.env['MODE'] }`)
+console.log("Hello world!");
+console.log(`Mode: ${ process.env["MODE"] }`)
