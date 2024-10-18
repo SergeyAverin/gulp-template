@@ -3,15 +3,20 @@ extends layout/base
 mixin link(url, text, imageSrc)
     a.link(src=url)= text 
 
+mixin search(searchLink)
+    input.search(type="text") 
+
 block content
     .wrapper
-        .navigation
-            img(src="./img/HomePagePhoto.png")
-            .links
-                +link('#', 'vk', '')
-                +link('#', 'vk', '')
-                +link('#', 'vk', '')
+        div
+            +search('asf')
+            .navigation
+                img(src="./img/HomePagePhoto.png")
+                .links
+                    +link('#', 'vk', '')
+                    +link('#', 'vk', '')
+                    +link('#', 'vk', '')
 
-                +link('#', 'vk', '')
-                +link('#', 'vk', '')
-                +link('#', 'vk', '')
+                    +link('#', 'vk', '')
+                    +link('#', 'vk', '')
+                    +link('#', 'vk', '')

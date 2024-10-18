@@ -5,16 +5,11 @@
 
 // Components
 @import "components/link"
+@import "components/search"
 
 body
     background: $bg
     color: $fg
-
-.links
-    display: grid
-    grid-template-columns: 1fr 1fr 1fr
-    grid-gap: 10px
-    width: 400px
 
 .wrapper
     position: fixed
@@ -24,5 +19,16 @@ body
     justify-content: center
     align-items: center
 
+$gap-in-navigation-grid: 15px
+
+.links
+    display: grid
+    grid-template-columns: 1fr 1fr 1fr
+    grid-gap: $gap-in-navigation-grid
+    width: 400px
+
 .navigation
-    display: flex
+    display: grid
+    grid-template-columns: 270px 1fr
+    grid-gap: $gap-in-navigation-grid
+    margin-top: $gap-in-navigation-grid
